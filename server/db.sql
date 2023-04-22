@@ -24,7 +24,6 @@ CREATE TABLE public.users (
 
 CREATE TABLE public.bets ( 
     "id" serial NOT NULL,
-    "price" integer NOT NULL,
     "category" varchar NOT NULL,
     "status" BOOLEAN NOT NULL,
     "created_at" TIMESTAMP DEFAULT NOW(),
@@ -35,6 +34,7 @@ CREATE TABLE public.bets_detail (
     "user_id" integer NOT NULL,
     "bets_id" integer NOT NULL,
     "team" varchar NOT NULL
+    "user_wager" integer NOT NULL,
 );
 
 
