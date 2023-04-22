@@ -43,8 +43,8 @@ ALTER TABLE public.bets_detail ADD CONSTRAINT "bets_detail_fk0" FOREIGN KEY ("us
 ALTER TABLE public.bets_detail ADD CONSTRAINT "bets_detail_fk1" FOREIGN KEY ("bets_id") REFERENCES public.bets("id");
 
 --below we will enter two fake users into the users table
-INSERT INTO public.users VALUES (1, 100, 'Michael_Jordan', 'last_dance');
-INSERT INTO public.users VALUES (2, 100, 'Scotty_Pippin', 'second_fiddle');
+-- INSERT INTO public.users VALUES (1, 100, 'Michael_Jordan', 'last_dance');
+-- INSERT INTO public.users VALUES (2, 100, 'Scotty_Pippin', 'second_fiddle');
 
 
 -- constraint adds a label to 
