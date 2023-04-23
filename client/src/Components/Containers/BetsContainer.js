@@ -1,15 +1,10 @@
-import React from "react";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import React, { useContext } from "react";
+import { StateContext } from "../../context/StateContext";
+import { Container, Row, Col } from "react-bootstrap";
 import BetItem from "../BetItem";
-import { Container } from "react-bootstrap";
 
 const BetsContainer = () => {
-  const bets = [
-    { opponent: "Ryan", category: "NBA", amount: "10", status: "open" },
-    { opponent: "Tejash", category: "NBA", amount: "10", status: "open" },
-    { opponent: "Jonathan", category: "NBA", amount: "10", status: "open" },
-  ];
+  const {usersBets} = useContext(StateContext) 
   return (
     <Container fluid>
       <Row>
@@ -30,9 +25,9 @@ const BetsContainer = () => {
         </Col>
       </Row>
 
-      {bets.map((bet) => {
+      {usersBets.map((bet, index) => {
         return (
-          <Row className="justify-content-center">
+          <Row key={index} className="justify-content-center">
             <BetItem
               opponent={bet.opponent}
               category={bet.category}
