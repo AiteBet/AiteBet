@@ -1,4 +1,4 @@
-const db = require("../models/usersModel");
+const db = require("../models/poolsModel");
 
 const usersController = {};
 
@@ -56,7 +56,7 @@ usersController.login = (req, res, next) => {
         // not a server error but user error so thinking we redirect to same page
         // with an error message 
         // for now we are going to send 406 status code
-        res.status(406);
+        res.status(406).json();
       }
     })
     .catch((err) => {

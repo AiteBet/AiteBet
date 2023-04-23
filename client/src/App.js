@@ -1,12 +1,17 @@
 import React from "react";
+import Login from "./Components/Signup/Login";
 import Home from "./Components/Home";
 
 const App = () => {
   return (
+    (
     <div className="app">
-      App Is Running
+      
+      <Login />
+    
       <Home />
     </div>
+  )
   );
 };
 
