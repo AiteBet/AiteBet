@@ -33,8 +33,8 @@ CREATE TABLE public.bets (
 CREATE TABLE public.bets_detail (
     "user_id" integer NOT NULL,
     "bets_id" integer NOT NULL,
-    "team" varchar NOT NULL
-    "user_wager" integer NOT NULL,
+    "team" varchar NOT NULL,
+    "user_wager" integer NOT NULL
 );
 
 
