@@ -1,13 +1,21 @@
 const path = require("path");
+// const cookieParser = require("cookie-parser")
 const express = require("express");
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 const cors = require("cors");
-
+const userRouter = require('./routes/user');
+const betsRouter = require('./routes/bet');
 require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
+
+//all incoming routes will be sent to the userRoute for CRUD handling
+app.use('/user', userRouter);
+
+app.use('/bets', betsRouter);
 
 //local error handler
 app.use((req, res) => res.sendStatus(404));
@@ -28,3 +36,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
+
+module.exports = app;
