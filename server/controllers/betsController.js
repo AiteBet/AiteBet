@@ -8,14 +8,15 @@ betsController.getAllUserBets = (req, res, next) => {
   // destructure id from req body
   const { id } = req.params;
   console.log(id);
-  queryString = `SELECT bd.*
-                   FROM public.bets_detail bd
-                   JOIN public.bets b ON bd.bets_id = b.id
-                   WHERE bd.user_id = $1
-                   AND b.status = true`;
-  // currently our queryString finds all betDetail instances where the user_id = req.params.id
-  // we want it to do a subQuery that takes this bet_id from betDetail and displays bet
-  // Grab all bets from bets table where bet_details.bet_id = bets.bet_id
+
+  // joining all 3 of our db tables specifying the user from our req.params
+  // displays all results from the first line of the query
+  queryString = `SELECT u.id, b.category, bd.team, bd.user_wager, b.status
+                  FROM public.bets_detail bd
+                  JOIN public.users u ON u.id = bd.user_id
+                  JOIN public.bets b ON b.id = bd.bets_id
+                  WHERE u.id = $1
+                  AND b.status = TRUE;`;
 
   const value = [id];
 
