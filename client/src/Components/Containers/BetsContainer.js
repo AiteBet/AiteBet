@@ -1,10 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import axios from 'axios';
 import { StateContext } from "../../context/StateContext";
 import { Container, Row, Col } from "react-bootstrap";
 import BetItem from "../BetItem";
 
 const BetsContainer = () => {
-  const {usersBets} = useContext(StateContext) 
+  const {usersBets, setUsersBets, user} = useContext(StateContext) 
+
+
+  useEffect(() => {
+    try {
+      const fetchUserBets = async () => {
+        const result = await axios.get(`http://localhost:8080/bets/${user.id}`)
+        console.log(setUsersBets(result.data));
+      }
+      fetchUserBets();
+    } catch(err) {
+      console.log(err)
+    }
+  },[])
   return (
     <Container fluid>
       <Row>
@@ -25,13 +39,13 @@ const BetsContainer = () => {
         </Col>
       </Row>
 
-      {usersBets.map((bet, index) => {
+      {usersBets.length > 0 && usersBets.map((bet, index) => {
         return (
           <Row key={index} className="justify-content-center">
             <BetItem
               opponent={bet.opponent}
               category={bet.category}
-              amount={bet.amount}
+              amount={bet.user_wager}
               status={bet.status}
             />
           </Row>
