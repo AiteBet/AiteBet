@@ -5,13 +5,14 @@ import { Container, Row, Form, Col, Button, Dropdown } from 'react-bootstrap';
 import AutoComplete from './AutoComplete';
 
 const CreateBet = () => {
-
   const [allUsers, setAllUsers] = useState([])
   const [selectedUser, setSelectedUser] = useState({});
   const [selectedGame, setSelectedGame] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [wagerAmount, setWagerAmount] = useState(null);
   const {games, setGames, user} = useContext(StateContext);
   const sport = 'basketball_nba'
+  console.log('wagerAmount:', wagerAmount)
   console.log('process env api key',process.env.ODDS_API_KEY)
   console.log('selected a user', selectedUser)
   console.log('all users', allUsers)
@@ -87,15 +88,44 @@ const CreateBet = () => {
   },[])
 
   const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('HEREEEEEE')
+    // we are getting id from user.id (stateContext)
+    // we are getting opponentId from selectedUser.id (local state)
+    // we are getting wagerAmount from (local state)
+    // we are getting gameId from selectedGame.id (local state)
+    // we are getting selectedTeam from selectedTeam (local state)
+
+    // we do logic checking keys (home_team && away_team) of selectedGame compare to selectedTeam; the one that is not a match is opponentTeam
+    let opponentTeam = '';
+    const teamArr = [selectedGame.home_team, selectedGame.away_team];
+    if(selectedTeam === teamArr[0]) {
+      opponentTeam = teamArr[1];
+    } else {
+      opponentTeam = teamArr[0];
+    }
     //const {id, opponentId, wagerAmount, gameId, selectedTeam, completed, opponentTeam} = req.body;
     // axios post request
-
-
-  }
-
-  const handleSelect = () => {
+    const dataObj = {
+      id: user.id ,
+      opponentId: selectedUser.id ,
+      wagerAmount: wagerAmount ,
+      gameId: selectedGame.id ,
+      selectedTeam: selectedTeam,
+      completed: selectedGame.completed,
+      opponentTeam: opponentTeam
+    }
+    axios.post('http://localhost:8080/bets/create_bet', dataObj)
+      .then(response => {
+        response.json();
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
     
   }
+  
   return (
     <Container>
       <Row className="justify-content-center">
@@ -108,13 +138,14 @@ const CreateBet = () => {
             <Form.Group controlId="formBasicEmail">
 
               {/* // here we probably want as inputs user_wager and opponent/s */}
+              {/* // eventually this form should account for negative wagers */}
               <Form.Label>Amount to wager:</Form.Label>
               <Form.Control
                 type="number"
                 placeholder="$100"
                 required
-                // value={username}
-                // onChange={onChangeUsername}
+                value={wagerAmount}
+                onChange={(e) => {setWagerAmount(e.target.value)}}
               />
             </Form.Group>
 
