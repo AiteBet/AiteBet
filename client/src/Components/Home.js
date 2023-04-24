@@ -25,12 +25,14 @@ const Home = () => {
           </h4>
         </Row>
         <Row>
-          <Col className='col-2'>
-          <Button variant='primary' onClick={() => navigate('/bets/create')}>Create New Bet</Button>
+          <Col className="col-2">
+            <Button variant="primary" onClick={() => navigate("/bets/create")}>
+              Create New Bet
+            </Button>
           </Col>
         </Row>
         <Row>
-          <Col md={10}>
+          <Col>
             <BetsContainer />
           </Col>
         </Row>
