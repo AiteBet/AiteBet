@@ -4,7 +4,7 @@ const usersController = {};
 
 usersController.getAllUsers = (req,res,next) => {
   const { id } = req.params; 
-  const queryString = `SELECT users.id, users.username, users.money FROM users WHERE users.id <> $1`;
+  const queryString = `SELECT users.id, users.username, users.account_balance FROM users WHERE users.id <> $1`;
   db.query(queryString, [id]).then(results => {
       console.log(results.rows)
       res.locals.allUsers = results.rows
@@ -19,10 +19,10 @@ usersController.signUp = (req, res, next) => {
     const { username, password } = req.body;
 
     // query string with SQL query of creating a new row for users table and returning that value in the promise
-    const queryString = `INSERT INTO users (money, username, password) VALUES ($1, $2, $3) RETURNING *`;
+    const queryString = `INSERT INTO users (username, password, account_balance) VALUES ($1, $2, $3) RETURNING *`;
     
     // values we are going to insert into database
-    const values = [1000, username, password];
+    const values = [username, password, 1000];
 
     //sends SQL query and values to be passed into SQL user table
     db.query(queryString, values)

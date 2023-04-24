@@ -8,4 +8,8 @@ router.get("/:id", betsController.getAllUserBets, (req, res) => {
   return res.status(200).json(res.locals.ArrOfUserBets);
 });
 
+router.post('/create_bet', betsController.createBet, (req,res) => {
+  return res.status(200).json([])
+})
+
 module.exports = router;

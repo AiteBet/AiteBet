@@ -16,9 +16,9 @@ DROP TABLE IF EXISTS public.bets;
 
 CREATE TABLE public.users (
     "id" serial NOT NULL,
-    "money" integer,
     "username" varchar UNIQUE,
     "password" varchar NOT NULL,
+    "account_balance" integer NOT NULL,
     CONSTRAINT "users_pk" PRIMARY KEY("id")
 );
 
@@ -27,6 +27,7 @@ CREATE TABLE public.bets (
     "game_id" varchar NOT NULL,
     "category" varchar NOT NULL,
     "status" BOOLEAN NOT NULL,
+    "total_pot" integer NOT NULL,
     "created_at" TIMESTAMP DEFAULT NOW(),
     CONSTRAINT "bets_pk" PRIMARY KEY("id")
 );
@@ -46,8 +47,32 @@ ALTER TABLE public.bets_detail ADD CONSTRAINT "bets_detail_fk0" FOREIGN KEY ("us
 ALTER TABLE public.bets_detail ADD CONSTRAINT "bets_detail_fk1" FOREIGN KEY ("bets_id") REFERENCES public.bets("id");
 
 --below we will enter two fake users into the users table
--- INSERT INTO public.users VALUES (1, 100, 'Michael_Jordan', 'last_dance');
--- INSERT INTO public.users VALUES (2, 100, 'Scotty_Pippin', 'second_fiddle');
+INSERT INTO public.users(id, username, password, account_balance) VALUES (1, 'user1', 'pass', 1000);
+INSERT INTO public.users(id, username, password, account_balance) VALUES (2, 'user2', 'pass', 1000);
+INSERT INTO public.users(id, username, password, account_balance) VALUES (3, 'user3', 'pass', 1000);
+INSERT INTO public.users(id, username, password, account_balance) VALUES (4, 'user4', 'pass', 1000);
 
+
+
+
+INSERT INTO public.bets(id, game_id, category, status, total_pot) VALUES (1, 'some_game', 'NBA', true, 1000);
+INSERT INTO public.bets(id, game_id, category, status, total_pot) VALUES (2, 'another_game', 'NBA', true, 400);
+
+INSERT INTO public.bets(id, game_id, category, status, total_pot) VALUES ('another_game', 'NBA', true, 400);
+
+
+INSERT INTO public.bets_detail VALUES (1, 1, 1, 'suns', 500);
+INSERT INTO public.bets_detail VALUES (2, 2, 1, 'warriors', 500);
+INSERT INTO public.bets_detail VALUES (3, 3, 2, 'clippers', 200);
+INSERT INTO public.bets_detail VALUES (4, 4, 2, 'hawks', 200);
 
 -- constraint adds a label to 
+
+
+
+-- SELECT u.username
+-- FROM public.users u
+-- INNER JOIN public.bets_detail bd
+-- ON u.id = bd.user_id
+-- WHERE bd.bets_id = (SELECT bets_id FROM public.bets_detail WHERE user_id = 3 AND team = 'clippers')
+-- AND bd.user_id != 3 AND bd.bets_id = 2;

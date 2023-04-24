@@ -23,7 +23,7 @@ const BetsContainer = () => {
     <Container fluid>
       <Row>
         <Col className="col-2">
-          <strong>Oppoonent</strong>
+          <strong>Opponent</strong>
         </Col>
         <Col className="col-2">
           <strong>Category</strong>
@@ -31,8 +31,11 @@ const BetsContainer = () => {
         <Col className="col-2">
           <strong>Amount</strong>
         </Col>
-        <Col className="col-5">
-          <strong>Status</strong>
+        <Col className="col-2">
+          <strong>Your Team</strong>
+        </Col>
+        <Col className="col-3">
+          <strong>Bet Status</strong>
         </Col>
         <Col className="col-1">
           <strong>Odds</strong>
@@ -45,6 +48,7 @@ const BetsContainer = () => {
             <BetItem
               opponent={bet.opponent}
               category={bet.category}
+              team ={bet.team}
               amount={bet.user_wager}
               status={bet.status}
             />

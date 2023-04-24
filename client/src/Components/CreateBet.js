@@ -8,11 +8,16 @@ const CreateBet = () => {
 
   const [allUsers, setAllUsers] = useState([])
   const [selectedUser, setSelectedUser] = useState({});
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [selectedTeam, setSelectedTeam] = useState(null);
   const {games, setGames, user} = useContext(StateContext);
   const sport = 'basketball_nba'
   console.log('process env api key',process.env.ODDS_API_KEY)
   console.log('selected a user', selectedUser)
-
+  console.log('all users', allUsers)
+  console.log("all games", games)
+  console.log('selected game', selectedGame)
+  console.log('selected team', selectedTeam)
   useEffect(() => {
     try {
       const getAllUsers = async () => {
@@ -75,13 +80,16 @@ const CreateBet = () => {
 
     
       //UNCOMMENT THIS TO TO GET CURRENT AND UPCOMING GAMES
-      //fetchGames();
+      fetchGames();
     } catch(err) {
       console.log(err)
     }
   },[])
 
   const handleSubmit = (e) => {
+    //// create bet with game_id, category (always 'NBA'), status (true), totalPot (wager_amt*2), created at (default)
+    // axios post request
+
 
   }
 
@@ -121,20 +129,45 @@ const CreateBet = () => {
                 // thinking about creating local state that we can assign to the
                 // game that the user chooses
                 // on submit button, we send that specific game to backend */}
-                <Dropdown.Menu onSelect={handleSelect}>
+                <Dropdown.Menu >
                   {games.length > 0 && games.map((game,index) => {
                     const date = new Date(game.commence_time)
                     const dateStr = `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
-                    return <Dropdown.Item eventKey={game.id}>{`${game.away_team} @ ${game.home_team} - ${dateStr}`}</Dropdown.Item>
+                    return (
+                    <Dropdown.Item 
+                    eventKey={game.id}
+                    onClick = {() => setSelectedGame(game)}
+                    >
+                      {`${game.away_team} @ ${game.home_team} - ${dateStr}`}                 
+                    </Dropdown.Item>)
                   })}
-
                 </Dropdown.Menu>
+                
               </Dropdown>
             </Form.Group>
+
+            {selectedGame && <Form.Group>
+              <Dropdown>
+                <Dropdown.Toggle variant="light" id="dropdown-basic">
+                Select a Team
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item eventKey={selectedGame.home_team} onClick = {() => setSelectedTeam(selectedGame.home_team)}>
+                    {selectedGame.home_team}
+                  </Dropdown.Item>
+
+                  <Dropdown.Item eventKey={selectedGame.away_team} onClick = {() => setSelectedTeam(selectedGame.away_team)}>
+                    {selectedGame.away_team}
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Form.Group>}
+ 
+
               <Button variant="primary" type="submit" className="mr-2">
                 Create Bet
               </Button>
-
+ 
           </Form>
         </Col>
       </Row>
