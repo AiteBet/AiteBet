@@ -87,7 +87,7 @@ const CreateBet = () => {
   },[])
 
   const handleSubmit = (e) => {
-    //// create bet with game_id, category (always 'NBA'), status (true), totalPot (wager_amt*2), created at (default)
+    //const {id, opponentId, wagerAmount, gameId, selectedTeam, completed, opponentTeam} = req.body;
     // axios post request
 
 

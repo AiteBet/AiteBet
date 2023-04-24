@@ -7,7 +7,7 @@ import BetItem from "../BetItem";
 const BetsContainer = () => {
   const {usersBets, setUsersBets, user} = useContext(StateContext) 
 
-
+//gameid : a3f1b181c86371af3213af6fe1da023b
   useEffect(() => {
     try {
       const fetchUserBets = async () => {
