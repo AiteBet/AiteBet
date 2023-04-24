@@ -1,15 +1,25 @@
-import React, { useEffect, useContext } from 'react'
-import { StateContext } from '../context/StateContext';
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios';
+import { StateContext } from '../context/StateContext';
 import { Container, Row, Form, Col, Button, Dropdown } from 'react-bootstrap';
+import AutoComplete from './AutoComplete';
 
 const CreateBet = () => {
-  const {games, setGames} = useContext(StateContext);
+
+  const [allUsers, setAllUsers] = useState([])
+  const [selectedUser, setSelectedUser] = useState({});
+  const {games, setGames, user} = useContext(StateContext);
   const sport = 'basketball_nba'
   console.log('process env api key',process.env.ODDS_API_KEY)
+  console.log('selected a user', selectedUser)
 
   useEffect(() => {
     try {
+      const getAllUsers = async () => {
+        const users = await axios.get(`http://localhost:8080/user/${user.id}`)
+        setAllUsers(users.data)
+      }
+      getAllUsers();
       const fetchGames = async () => {
         // result is going to have a key of data that has the information we are interested in
         // it is an array of game objects
@@ -63,6 +73,8 @@ const CreateBet = () => {
     //     "last_update": "2023-04-23T17:16:34Z"
     // },
 
+    
+      //UNCOMMENT THIS TO TO GET CURRENT AND UPCOMING GAMES
       //fetchGames();
     } catch(err) {
       console.log(err)
@@ -84,6 +96,7 @@ const CreateBet = () => {
             <h1 className="text-center">Create New Bet</h1>
           </div>
           <Form onSubmit={(e) => handleSubmit(e)}>
+            <AutoComplete options={allUsers} selectedUser={selectedUser} setSelectedUser={setSelectedUser}/>
             <Form.Group controlId="formBasicEmail">
 
               {/* // here we probably want as inputs user_wager and opponent/s */}

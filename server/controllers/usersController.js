@@ -2,6 +2,16 @@ const db = require("../models/poolsModel");
 
 const usersController = {};
 
+usersController.getAllUsers = (req,res,next) => {
+  const { id } = req.params; 
+  const queryString = `SELECT users.id, users.username, users.money FROM users WHERE users.id <> $1`;
+  db.query(queryString, [id]).then(results => {
+      console.log(results.rows)
+      res.locals.allUsers = results.rows
+      return next();
+  })
+}
+
 // create functionality for user table
 usersController.signUp = (req, res, next) => {
     // in req.body we have username and password money is fixed amt
