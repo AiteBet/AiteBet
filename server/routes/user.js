@@ -7,6 +7,10 @@ const router = express.Router();
 // below we will have all CRUD routing
 
 // read functionality for user
+router.get('/:id', usersController.getAllUsers, (req,res) => {
+  return res.status(200).json(res.locals.allUsers)
+})
+
 router.post('/signup', usersController.signUp, (req, res) => {
   return res.status(201).json(res.locals.newUser);
 });
