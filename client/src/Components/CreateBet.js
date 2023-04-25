@@ -226,9 +226,10 @@ const CreateBet = () => {
               Create Bet
             </Button>
           </Form>
+          {createdBet && <h4>Successfully created bet!</h4>}
         </Col>
       </Row>
-      {createdBet && <h4>Successfully created bet!</h4>}
+
     </Container>
   );
 };

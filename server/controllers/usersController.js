@@ -18,6 +18,8 @@ usersController.signUp = (req, res, next) => {
     // desanitize data from req.body
     const { username, password } = req.body;
 
+    console.log('username & password', username, password)
+
     // query string with SQL query of creating a new row for users table and returning that value in the promise
     const queryString = `INSERT INTO users (username, password, account_balance) VALUES ($1, $2, $3) RETURNING *`;
     
