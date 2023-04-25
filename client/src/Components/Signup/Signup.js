@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
+import { StateContext } from "../../context/StateContext";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
-  const [email, setEmail] = useState("");
+  const {user,setUser} = useContext(StateContext)
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = () => {
-     // submit a post request to database to add user
-    // use navigate to navigate to the bet stats page
+  const navigate = useNavigate();
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+     const dataObj = {
+      username,
+      password
+     };
+     console.log(dataObj);
+     axios.post('http://localhost:8080/user/signup', dataObj)
+       .then(response => {
+        console.log(response)
+        setUser(response.data);
+        navigate('/home')
+       })
+       .catch((err) => console.log(err))
    
   };
 
-  const onChangeEmail = (event) => {
-    setEmail(event.target.value);
+  const onChangeUsername = (event) => {
+    setUsername(event.target.value);
   };
   const onChangePassword = (event) => {
     setPassword(event.target.value);
@@ -23,14 +39,14 @@ const Signup = () => {
       <Row className="justify-content-center">
         <Col xs={12} md={6}>
           <h1 className="text-center">Signup</h1>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={(e) => handleSubmit(e)}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Username</Form.Label>
               <Form.Control
-                type="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={onChangeEmail}
+                type="text"
+                placeholder="Enter username"
+                value={username}
+                onChange={onChangeUsername}
               />
             </Form.Group>
 
@@ -54,4 +70,4 @@ const Signup = () => {
   );
 };
 
-export default Login;
+export default Signup;

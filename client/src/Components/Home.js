@@ -1,11 +1,13 @@
 import React, { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { StateContext } from "../context/StateContext";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import BetsContainer from "./Containers/BetsContainer";
 
 const Home = () => {
   const { user, setUsersBets } = useContext(StateContext);
+  const navigate = useNavigate();
   console.log("user from state", user);
 
   useEffect(() => {
@@ -23,7 +25,14 @@ const Home = () => {
           </h4>
         </Row>
         <Row>
-          <Col md={10}>
+          <Col className="col-2">
+            <Button variant="primary" onClick={() => navigate("/bets/create")}>
+              Create New Bet
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
             <BetsContainer />
           </Col>
         </Row>
