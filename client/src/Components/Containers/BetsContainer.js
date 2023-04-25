@@ -59,14 +59,14 @@ const BetsContainer = () => {
         <Col className="col-2">
           <strong>Category</strong>
         </Col>
-        <Col className="col-2">
+        <Col className="col-1">
           <strong>Amount</strong>
         </Col>
         <Col className="col-2">
-          <strong>Your Team</strong>
-        </Col>
-        <Col className="col-1">
           <strong>Bet Status</strong>
+        </Col>
+        <Col className="col-2">
+          <strong>Your Team</strong>
         </Col>
         <Col className="col-3">
           <strong>Odds</strong>

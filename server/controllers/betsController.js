@@ -29,8 +29,6 @@ betsController.getAllUserBets = (req, res, next) => {
                 JOIN public.bets_detail bd_selected ON bd.bets_id = bd_selected.bets_id AND bd_selected.user_id = $1
                 WHERE bd.user_id != $1;`;
 
-                    
-
   const value = [id];
 
   db.query(queryString, value)
@@ -46,14 +44,28 @@ betsController.getAllUserBets = (req, res, next) => {
     });
 };
 
-
-betsController.createBet = (req,res,next) => {
+betsController.createBet = (req, res, next) => {
   //should expect userID, opponentID, wager_amount, game_id, selected_team, opponent_team
   // create bet with  id ,game_id, category (always 'NBA'), status (true), totalPot (wager_amt*2), created at (default)
   // create bets_detail with user_id, bets_id
-  const {id, opponentId, wagerAmount, gameId, selectedTeam, completed, opponentTeam} = req.body;
-  console.log(id, opponentId, wagerAmount, gameId, selectedTeam, completed, opponentTeam)
-
+  const {
+    id,
+    opponentId,
+    wagerAmount,
+    gameId,
+    selectedTeam,
+    completed,
+    opponentTeam,
+  } = req.body;
+  console.log(
+    id,
+    opponentId,
+    wagerAmount,
+    gameId,
+    selectedTeam,
+    completed,
+    opponentTeam
+  );
 
   //QUERY SRTING TO INSERT INTO BETS TABLE
   const queryString = ` 
@@ -63,18 +75,17 @@ betsController.createBet = (req,res,next) => {
         `;
 
   // VALUES TO INSERT
-  const bets_values = [gameId, 'NBA', completed, wagerAmount*2]
+  const bets_values = [gameId, "NBA", completed, wagerAmount * 2];
 
   // INSERT INTO BET TABLE DB ASYNC
-  db.query(queryString, bets_values).then(results => {
+  db.query(queryString, bets_values).then((results) => {
     // GRAB ID OF BET JUST INSERTED
     const returnedID = results.rows[0].id;
-    console.log('returned id',returnedID);
-    
+    console.log("returned id", returnedID);
 
     const bd_values = [
       [id, returnedID, selectedTeam, wagerAmount],
-      [opponentId, returnedID, opponentTeam, wagerAmount]
+      [opponentId, returnedID, opponentTeam, wagerAmount],
     ];
     // VALUES TO BE INSERTED
 
@@ -84,15 +95,11 @@ betsController.createBet = (req,res,next) => {
     VALUES ($1,$2,$3,$4);`;
 
     bd_values.forEach(async (row) => {
-      const result = await db.query(bd_queryString, row);
-      console.log(result)
-    })
+      await db.query(bd_queryString, row);
+    });
+  });
 
-   // INSERT INTO BET DETAIL TABLE DB 2 ROWS ASYNC
-  //  db.query(bd_queryString, bd_values).then(bd_results => {
-  //   console.log(bd_results.rows)
-  //  })
-  })
-}
+  return next();
+};
 
 module.exports = betsController;
